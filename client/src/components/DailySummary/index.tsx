@@ -18,7 +18,7 @@ export const DailySummary = () => {
   }
 
   const activeMedicines = data.medicines.filter(
-    (medicine) => medicine.isActive
+    (medicine) => medicine.isActive,
   );
 
   activeMedicines.forEach((med) => {
@@ -32,13 +32,13 @@ export const DailySummary = () => {
       a.current.time[0] +
         a.current.time[1] +
         a.current.time[3] +
-        a.current.time[4]
+        a.current.time[4],
     );
     const timeB = parseInt(
       b.current.time[0] +
         b.current.time[1] +
         b.current.time[3] +
-        b.current.time[4]
+        b.current.time[4],
     );
     return timeA - timeB;
   });

@@ -112,7 +112,7 @@ medicineSchema.pre('findOneAndUpdate', async function (next) {
       let found = false;
 
       update.queue.forEach((queueTime) =>
-        queueTime.time === time ? (found = true) : null
+        queueTime.time === time ? (found = true) : null,
       );
 
       if (!found) update.queue.push({ time });

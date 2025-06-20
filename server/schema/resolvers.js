@@ -74,7 +74,7 @@ const resolvers = {
       const updatedMedicine = await Medicine.findOneAndUpdate(
         { _id: medicineId, userId: context.user._id },
         { ...medicine },
-        { new: true }
+        { new: true },
       );
 
       return updatedMedicine;
@@ -87,7 +87,7 @@ const resolvers = {
       const toggledIsActive = await Medicine.findOneAndUpdate(
         { _id: medicineId, userId: context.user._id, amount: { $gt: 0 } },
         [{ $set: { isActive: { $not: '$isActive' } } }],
-        { new: true }
+        { new: true },
       );
 
       return toggledIsActive;

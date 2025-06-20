@@ -20,7 +20,7 @@ module.exports = {
                 if (time == medicine.queue[i].time) return false;
               }
               return true;
-            })
+            }),
           );
 
           // updates the document on Medicine model then when its returned it gets pushed into the updatedMedicines array
@@ -31,11 +31,11 @@ module.exports = {
                 queue: [...newQueue],
                 queueLastFilled: new Date().setHours(0, 0, 0, 0),
               },
-              { new: true }
-            )
+              { new: true },
+            ),
           );
         } else updatedMedicines.push(medicine);
-      })
+      }),
     );
 
     return updatedMedicines;
