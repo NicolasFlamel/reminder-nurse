@@ -8,7 +8,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration.ts';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
 );
 
 // Below is old code, look into vite version
