@@ -1,6 +1,6 @@
 const { Medicine } = require('../models');
 
-module.exports = {
+export default {
   // updates the queue object on all medicine
   updateQueue: async (userMedicines) => {
     // new object to be returned with all medicines

@@ -56,4 +56,5 @@ const typeDefs = gql`
     checkQueue(medicineId: ID!, queueId: ID!): Medicine
   }
 `;
-module.exports = typeDefs;
+
+export default typeDefs;

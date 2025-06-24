@@ -1,4 +1,4 @@
-const Medicine = require('./Medicine');
-const User = require('./User');
+import Medicine from './Medicine';
+import User from './User';
 
-module.exports = { User, Medicine };
+export default { User, Medicine };
