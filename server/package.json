@@ -13,15 +13,19 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.12.2",
+    "@as-integrations/express5": "^1.1.0",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "dotenv": "^16.6.1",
+    "express": "^5.1.0",
     "graphql": "^16.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.7",
