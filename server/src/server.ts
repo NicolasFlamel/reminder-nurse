@@ -1,18 +1,23 @@
-import express from 'express';
 import path from 'path';
+import http from 'http';
+import cors from 'cors';
+import express from 'express';
 import db from './config/connection';
-import { ApolloServer } from 'apollo-server-express';
 import { typeDefs, resolvers } from './schema';
 import { authMiddleware } from './utils/auth';
+import { MyContext } from './types/apolloTypes';
+import { ApolloServer } from '@apollo/server';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { expressMiddleware } from '@as-integrations/express5';
 
 const app = express();
+const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 3001;
 
-const server = new ApolloServer({
-  cache: 'bounded',
+const server = new ApolloServer<MyContext>({
   typeDefs,
   resolvers,
-  context: authMiddleware,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../client/dist')));
 }
 
-app.get('/*', (req, res) => {
+app.get('/{*any}', (req, res) => {
   // TODO handle pathing
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
@@ -32,14 +37,20 @@ app.get('/*', (req, res) => {
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
   await server.start();
-  server.applyMiddleware({ app });
+
+  app.use(
+    '/graphql',
+    cors<cors.CorsRequest>(),
+    express.json(),
+    expressMiddleware(server, {
+      context: authMiddleware,
+    }),
+  );
 
   db.once('open', () => {
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       console.log('\x1b[34m' + `API server running on port ${PORT}! 🚀`);
-      console.log(
-        `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`,
-      );
+      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
     });
   });
 };
