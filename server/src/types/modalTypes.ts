@@ -1,30 +1,4 @@
-import { Types } from 'mongoose';
-
-type QueueType = { time: string; checked?: boolean };
-type UpdateType =
-  | 'name'
-  | 'dosage'
-  | 'amount'
-  | 'interval'
-  | 'subInterval'
-  | 'times';
-
-export type UpdateMedicineType = Partial<MedicineType>;
-
-// TODO: make some optional?
-export type MedicineType = {
-  name: string;
-  dosage?: number;
-  amount: number;
-  interval?: 'daily' | 'weekly' | 'monthly';
-  subInterval?: 'every' | 'every other';
-  times?: string[];
-  queue?: QueueType[];
-  queueLastFilled?: Date;
-  isActive?: boolean;
-  userId: Types.ObjectId;
-  fillQueue: () => Promise<boolean>;
-};
+import { Medicine as MedicineType } from './schemaTypes';
 
 export const isMedicineType = (val: unknown): val is MedicineType => {
   if (!val || typeof val !== 'object') return false;
@@ -62,15 +36,17 @@ const isQueueArray = (
   }
   return true;
 };
-const isQueueType = (val: unknown): val is QueueType => {
+const isQueueType = (
+  val: unknown,
+): val is NonNullable<MedicineType['queue']>[number] => {
   if (!val || typeof val !== 'object') return false;
 
-  return 'time' in val && typeof val.time === 'string';
+  return 'queue' in val && typeof val.queue === 'string';
 };
 
 export const isUpdateMedicineQuery = (
   val: unknown,
-): val is UpdateMedicineType => {
+): val is Partial<MedicineType> => {
   if (!val || typeof val !== 'object') return false;
   else if ('name' in val && typeof val.name === 'string') return true;
   else if ('dosage' in val && typeof val.dosage === 'number') return true;
