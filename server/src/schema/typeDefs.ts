@@ -10,14 +10,14 @@ const typeDefs = `#graphql
     amount: Int
     interval: String
     subInterval: String
-    times: [String]
-    queue: [Queue]
+    times: [String!]
+    queue: [Queue!]
     isActive: Boolean
     userId: ID!
   }
 
   type Queue {
-    _id: ID!
+    _id: ID
     time: String!
     checked: Boolean
   }
@@ -33,7 +33,7 @@ const typeDefs = `#graphql
     amount: Int
     interval: String
     subInterval: String
-    times: [String]
+    times: [String!]
   }
 
   input QueueInput {
@@ -42,7 +42,7 @@ const typeDefs = `#graphql
 
   type Query {
     medicine(medicineId: ID!): Medicine
-    medicines: [Medicine]
+    medicines: [Medicine!]
   }
 
   type Mutation {

@@ -30,9 +30,9 @@ export type Medicine = {
   interval?: Maybe<Scalars['String']['output']>;
   isActive?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  queue?: Maybe<Array<Maybe<Queue>>>;
+  queue?: Maybe<Array<Queue>>;
   subInterval?: Maybe<Scalars['String']['output']>;
-  times?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  times?: Maybe<Array<Scalars['String']['output']>>;
   userId: Scalars['ID']['output'];
 };
 
@@ -42,7 +42,7 @@ export type MedicineInput = {
   interval?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   subInterval?: InputMaybe<Scalars['String']['input']>;
-  times?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  times?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Mutation = {
@@ -92,7 +92,7 @@ export type MutationUpdateMedicineArgs = {
 export type Query = {
   __typename?: 'Query';
   medicine?: Maybe<Medicine>;
-  medicines?: Maybe<Array<Maybe<Medicine>>>;
+  medicines?: Maybe<Array<Medicine>>;
 };
 
 
@@ -102,7 +102,7 @@ export type QueryMedicineArgs = {
 
 export type Queue = {
   __typename?: 'Queue';
-  _id: Scalars['ID']['output'];
+  _id?: Maybe<Scalars['ID']['output']>;
   checked?: Maybe<Scalars['Boolean']['output']>;
   time: Scalars['String']['output'];
 };
@@ -231,9 +231,9 @@ export type MedicineResolvers<ContextType = any, ParentType extends ResolversPar
   interval?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  queue?: Resolver<Maybe<Array<Maybe<ResolversTypes['Queue']>>>, ParentType, ContextType>;
+  queue?: Resolver<Maybe<Array<ResolversTypes['Queue']>>, ParentType, ContextType>;
   subInterval?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  times?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  times?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -249,11 +249,11 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   medicine?: Resolver<Maybe<ResolversTypes['Medicine']>, ParentType, ContextType, RequireFields<QueryMedicineArgs, 'medicineId'>>;
-  medicines?: Resolver<Maybe<Array<Maybe<ResolversTypes['Medicine']>>>, ParentType, ContextType>;
+  medicines?: Resolver<Maybe<Array<ResolversTypes['Medicine']>>, ParentType, ContextType>;
 };
 
 export type QueueResolvers<ContextType = any, ParentType extends ResolversParentTypes['Queue'] = ResolversParentTypes['Queue']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  _id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   checked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   time?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
