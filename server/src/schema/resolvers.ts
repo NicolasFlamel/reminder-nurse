@@ -1,7 +1,7 @@
 import { AuthenticationError, UserInputError } from 'apollo-server-express';
 import { User, Medicine } from '../models';
 import { signToken } from '../utils/auth';
-import updateQueue from '../utils/updateQueue';
+import { updateQueue } from '../utils/updateQueue';
 
 const resolvers = {
   Query: {
