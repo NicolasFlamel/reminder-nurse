@@ -13,6 +13,7 @@ import { expressMiddleware } from '@as-integrations/express5';
 const app = express();
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 3001;
+const isProduction = process.env.NODE_ENV === 'production';
 
 const server = new ApolloServer<MyContext>({
   typeDefs,
@@ -24,12 +25,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // if we're in production, serve client/dist as static assets
-if (process.env.NODE_ENV === 'production') {
+if (isProduction) {
   // TODO handle pathing
   app.use(express.static(path.join(__dirname, '../../client/dist')));
 }
 
-app.get('/{*any}', (req, res) => {
+app.get('/{*any}', (req, res, next) => {
+  if (!isProduction && req.originalUrl.startsWith('/graphql')) next();
   // TODO handle pathing
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
