@@ -1,6 +1,6 @@
 export interface MyContext {
   token?: string;
-  user: { username: string; _id: string };
+  user?: { username: string; _id: string };
 }
 
 export type ResolverType = {
