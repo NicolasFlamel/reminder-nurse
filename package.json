@@ -10,6 +10,7 @@
     "dev:server": "cd server && npm run dev",
     "postinstall": "cd server && npm i && cd ../client && npm i",
     "build": "cd client && npm run build",
+    "generate": "cd server && npm run generate",
     "seed": "cd server && npm run seed",
     "lint": "cd client && npm run lint",
     "prettier": "npx prettier --write ."
