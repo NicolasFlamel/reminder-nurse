@@ -1,4 +1,4 @@
-import { Medicine as MedicineType } from './schemaTypes';
+import { MedicineType } from './schemaTypes';
 
 export const isMedicineType = (val: unknown): val is MedicineType => {
   if (!val || typeof val !== 'object') return false;

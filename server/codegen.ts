@@ -6,6 +6,7 @@ const config: CodegenConfig = {
   generates: {
     './src/types/schemaTypes.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
+      config: { typesSuffix: 'Type' },
     },
   },
 };

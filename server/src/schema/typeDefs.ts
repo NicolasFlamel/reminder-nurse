@@ -17,7 +17,7 @@ const typeDefs = `#graphql
   }
 
   type Queue {
-    _id: ID
+    _id: ID!
     time: String!
     checked: Boolean
   }

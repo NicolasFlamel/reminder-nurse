@@ -1,10 +1,6 @@
 import dayjs from 'dayjs';
-import { Schema, model } from 'mongoose';
-import {
-  isMedicineType,
-  isUpdateMedicineQuery,
-  MedicineType,
-} from '../types/modalTypes';
+import mongoose, { Schema, model } from 'mongoose';
+import { isMedicineType, isUpdateMedicineQuery } from '../types/modalTypes';
 
 const medicineSchema = new Schema(
   {
@@ -170,4 +166,5 @@ medicineSchema.pre('findOneAndUpdate', async function (next) {
 
 const Medicine = model('Medicine', medicineSchema);
 
+export type MedicineModalType = typeof Medicine;
 export default Medicine;

@@ -16,13 +16,13 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Auth = {
+export type AuthType = {
   __typename?: 'Auth';
   token: Scalars['ID']['output'];
-  user?: Maybe<User>;
+  user?: Maybe<UserType>;
 };
 
-export type Medicine = {
+export type MedicineType = {
   __typename?: 'Medicine';
   _id: Scalars['ID']['output'];
   amount?: Maybe<Scalars['Int']['output']>;
@@ -30,13 +30,13 @@ export type Medicine = {
   interval?: Maybe<Scalars['String']['output']>;
   isActive?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  queue?: Maybe<Array<Queue>>;
+  queue?: Maybe<Array<QueueType>>;
   subInterval?: Maybe<Scalars['String']['output']>;
   times?: Maybe<Array<Scalars['String']['output']>>;
   userId: Scalars['ID']['output'];
 };
 
-export type MedicineInput = {
+export type MedicineInputType = {
   amount?: InputMaybe<Scalars['Int']['input']>;
   dosage?: InputMaybe<Scalars['Int']['input']>;
   interval?: InputMaybe<Scalars['String']['input']>;
@@ -45,73 +45,73 @@ export type MedicineInput = {
   times?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
-export type Mutation = {
+export type MutationType = {
   __typename?: 'Mutation';
-  addMedicine?: Maybe<Medicine>;
-  addUser?: Maybe<Auth>;
-  checkQueue?: Maybe<Medicine>;
-  login?: Maybe<Auth>;
-  toggleIsActive?: Maybe<Medicine>;
-  updateMedicine?: Maybe<Medicine>;
+  addMedicine?: Maybe<MedicineType>;
+  addUser?: Maybe<AuthType>;
+  checkQueue?: Maybe<MedicineType>;
+  login?: Maybe<AuthType>;
+  toggleIsActive?: Maybe<MedicineType>;
+  updateMedicine?: Maybe<MedicineType>;
 };
 
 
-export type MutationAddMedicineArgs = {
-  medicine: MedicineInput;
+export type MutationAddMedicineArgsType = {
+  medicine: MedicineInputType;
 };
 
 
-export type MutationAddUserArgs = {
+export type MutationAddUserArgsType = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
 
 
-export type MutationCheckQueueArgs = {
+export type MutationCheckQueueArgsType = {
   medicineId: Scalars['ID']['input'];
   queueId: Scalars['ID']['input'];
 };
 
 
-export type MutationLoginArgs = {
+export type MutationLoginArgsType = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
 
 
-export type MutationToggleIsActiveArgs = {
+export type MutationToggleIsActiveArgsType = {
   medicineId: Scalars['ID']['input'];
 };
 
 
-export type MutationUpdateMedicineArgs = {
-  medicine: MedicineInput;
+export type MutationUpdateMedicineArgsType = {
+  medicine: MedicineInputType;
   medicineId: Scalars['ID']['input'];
 };
 
-export type Query = {
+export type QueryType = {
   __typename?: 'Query';
-  medicine?: Maybe<Medicine>;
-  medicines?: Maybe<Array<Medicine>>;
+  medicine?: Maybe<MedicineType>;
+  medicines?: Maybe<Array<MedicineType>>;
 };
 
 
-export type QueryMedicineArgs = {
+export type QueryMedicineArgsType = {
   medicineId: Scalars['ID']['input'];
 };
 
-export type Queue = {
+export type QueueType = {
   __typename?: 'Queue';
-  _id?: Maybe<Scalars['ID']['output']>;
+  _id: Scalars['ID']['output'];
   checked?: Maybe<Scalars['Boolean']['output']>;
   time: Scalars['String']['output'];
 };
 
-export type QueueInput = {
+export type QueueInputType = {
   time: Scalars['String']['input'];
 };
 
-export type User = {
+export type UserType = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
   username: Scalars['String']['output'];
@@ -187,90 +187,90 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
-  Auth: ResolverTypeWrapper<Auth>;
+export type ResolversTypesType = {
+  Auth: ResolverTypeWrapper<AuthType>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  Medicine: ResolverTypeWrapper<Medicine>;
-  MedicineInput: MedicineInput;
+  Medicine: ResolverTypeWrapper<MedicineType>;
+  MedicineInput: MedicineInputType;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  Queue: ResolverTypeWrapper<Queue>;
-  QueueInput: QueueInput;
+  Queue: ResolverTypeWrapper<QueueType>;
+  QueueInput: QueueInputType;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<UserType>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
-  Auth: Auth;
+export type ResolversParentTypesType = {
+  Auth: AuthType;
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
-  Medicine: Medicine;
-  MedicineInput: MedicineInput;
+  Medicine: MedicineType;
+  MedicineInput: MedicineInputType;
   Mutation: {};
   Query: {};
-  Queue: Queue;
-  QueueInput: QueueInput;
+  Queue: QueueType;
+  QueueInput: QueueInputType;
   String: Scalars['String']['output'];
-  User: User;
+  User: UserType;
 };
 
-export type AuthResolvers<ContextType = any, ParentType extends ResolversParentTypes['Auth'] = ResolversParentTypes['Auth']> = {
-  token?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+export type AuthResolversType<ContextType = any, ParentType extends ResolversParentTypesType['Auth'] = ResolversParentTypesType['Auth']> = {
+  token?: Resolver<ResolversTypesType['ID'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypesType['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MedicineResolvers<ContextType = any, ParentType extends ResolversParentTypes['Medicine'] = ResolversParentTypes['Medicine']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  amount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  dosage?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  interval?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  queue?: Resolver<Maybe<Array<ResolversTypes['Queue']>>, ParentType, ContextType>;
-  subInterval?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  times?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+export type MedicineResolversType<ContextType = any, ParentType extends ResolversParentTypesType['Medicine'] = ResolversParentTypesType['Medicine']> = {
+  _id?: Resolver<ResolversTypesType['ID'], ParentType, ContextType>;
+  amount?: Resolver<Maybe<ResolversTypesType['Int']>, ParentType, ContextType>;
+  dosage?: Resolver<Maybe<ResolversTypesType['Int']>, ParentType, ContextType>;
+  interval?: Resolver<Maybe<ResolversTypesType['String']>, ParentType, ContextType>;
+  isActive?: Resolver<Maybe<ResolversTypesType['Boolean']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypesType['String']>, ParentType, ContextType>;
+  queue?: Resolver<Maybe<Array<ResolversTypesType['Queue']>>, ParentType, ContextType>;
+  subInterval?: Resolver<Maybe<ResolversTypesType['String']>, ParentType, ContextType>;
+  times?: Resolver<Maybe<Array<ResolversTypesType['String']>>, ParentType, ContextType>;
+  userId?: Resolver<ResolversTypesType['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addMedicine?: Resolver<Maybe<ResolversTypes['Medicine']>, ParentType, ContextType, RequireFields<MutationAddMedicineArgs, 'medicine'>>;
-  addUser?: Resolver<Maybe<ResolversTypes['Auth']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'password' | 'username'>>;
-  checkQueue?: Resolver<Maybe<ResolversTypes['Medicine']>, ParentType, ContextType, RequireFields<MutationCheckQueueArgs, 'medicineId' | 'queueId'>>;
-  login?: Resolver<Maybe<ResolversTypes['Auth']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
-  toggleIsActive?: Resolver<Maybe<ResolversTypes['Medicine']>, ParentType, ContextType, RequireFields<MutationToggleIsActiveArgs, 'medicineId'>>;
-  updateMedicine?: Resolver<Maybe<ResolversTypes['Medicine']>, ParentType, ContextType, RequireFields<MutationUpdateMedicineArgs, 'medicine' | 'medicineId'>>;
+export type MutationResolversType<ContextType = any, ParentType extends ResolversParentTypesType['Mutation'] = ResolversParentTypesType['Mutation']> = {
+  addMedicine?: Resolver<Maybe<ResolversTypesType['Medicine']>, ParentType, ContextType, RequireFields<MutationAddMedicineArgsType, 'medicine'>>;
+  addUser?: Resolver<Maybe<ResolversTypesType['Auth']>, ParentType, ContextType, RequireFields<MutationAddUserArgsType, 'password' | 'username'>>;
+  checkQueue?: Resolver<Maybe<ResolversTypesType['Medicine']>, ParentType, ContextType, RequireFields<MutationCheckQueueArgsType, 'medicineId' | 'queueId'>>;
+  login?: Resolver<Maybe<ResolversTypesType['Auth']>, ParentType, ContextType, RequireFields<MutationLoginArgsType, 'password' | 'username'>>;
+  toggleIsActive?: Resolver<Maybe<ResolversTypesType['Medicine']>, ParentType, ContextType, RequireFields<MutationToggleIsActiveArgsType, 'medicineId'>>;
+  updateMedicine?: Resolver<Maybe<ResolversTypesType['Medicine']>, ParentType, ContextType, RequireFields<MutationUpdateMedicineArgsType, 'medicine' | 'medicineId'>>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  medicine?: Resolver<Maybe<ResolversTypes['Medicine']>, ParentType, ContextType, RequireFields<QueryMedicineArgs, 'medicineId'>>;
-  medicines?: Resolver<Maybe<Array<ResolversTypes['Medicine']>>, ParentType, ContextType>;
+export type QueryResolversType<ContextType = any, ParentType extends ResolversParentTypesType['Query'] = ResolversParentTypesType['Query']> = {
+  medicine?: Resolver<Maybe<ResolversTypesType['Medicine']>, ParentType, ContextType, RequireFields<QueryMedicineArgsType, 'medicineId'>>;
+  medicines?: Resolver<Maybe<Array<ResolversTypesType['Medicine']>>, ParentType, ContextType>;
 };
 
-export type QueueResolvers<ContextType = any, ParentType extends ResolversParentTypes['Queue'] = ResolversParentTypes['Queue']> = {
-  _id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  checked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  time?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type QueueResolversType<ContextType = any, ParentType extends ResolversParentTypesType['Queue'] = ResolversParentTypesType['Queue']> = {
+  _id?: Resolver<ResolversTypesType['ID'], ParentType, ContextType>;
+  checked?: Resolver<Maybe<ResolversTypesType['Boolean']>, ParentType, ContextType>;
+  time?: Resolver<ResolversTypesType['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type UserResolversType<ContextType = any, ParentType extends ResolversParentTypesType['User'] = ResolversParentTypesType['User']> = {
+  _id?: Resolver<ResolversTypesType['ID'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypesType['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
-  Auth?: AuthResolvers<ContextType>;
-  Medicine?: MedicineResolvers<ContextType>;
-  Mutation?: MutationResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
-  Queue?: QueueResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
+export type ResolversType<ContextType = any> = {
+  Auth?: AuthResolversType<ContextType>;
+  Medicine?: MedicineResolversType<ContextType>;
+  Mutation?: MutationResolversType<ContextType>;
+  Query?: QueryResolversType<ContextType>;
+  Queue?: QueueResolversType<ContextType>;
+  User?: UserResolversType<ContextType>;
 };
 
