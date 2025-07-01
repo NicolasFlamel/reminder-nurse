@@ -1,7 +1,7 @@
 import { ContextFunction } from '@apollo/server';
 import { ExpressContextFunctionArgument } from '@as-integrations/express5';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 import { MyContext } from '../types/apolloTypes';
 import 'dotenv/config';
 
@@ -37,7 +37,7 @@ const authMiddleware: authMiddleWareType = async function ({ req }) {
   return {};
 };
 
-type SignTokenArgs = { username: string; _id: Schema.Types.ObjectId };
+type SignTokenArgs = { username: string; _id: Types.ObjectId };
 const signToken = function ({ username, _id }: SignTokenArgs) {
   const payload = { username, _id };
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
