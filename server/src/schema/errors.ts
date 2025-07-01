@@ -20,3 +20,10 @@ export const badUserInputError = (message: string) =>
       code: 'BAD_USER_INPUT',
     },
   });
+
+export const notFoundError = () =>
+  new GraphQLError('Medicine not found', {
+    extensions: {
+      code: 'NOT_FOUND',
+    },
+  });
