@@ -38,10 +38,11 @@ const medicineSchema = new Schema(
         type: String,
         validate: {
           validator: function (time: string) {
+            if (!('times' in this)) throw new Error('!times');
             // returns true or false if the queue has to be filled
             // check there aren't duplicate times
             let found = 0;
-            const times = (this as MedicineType)?.times;
+            const times = this.times;
 
             if (!times) throw new Error('!times');
 
@@ -155,10 +156,16 @@ medicineSchema.pre('findOneAndUpdate', async function (next) {
         queueTime.time === time ? (found = true) : null,
       );
 
-      if (!found)
-        update.queue
-          ? update.queue.push({ time, checked: false })
-          : (update.queue = [{ time, checked: false }]);
+      if (!found && update.queue) {
+        const _id = new mongoose.Types.ObjectId().toString();
+        const queue = {
+          _id,
+          time,
+          checked: false,
+        };
+        if (update.queue) update.queue.push(queue);
+        else update.queue = [queue];
+      }
     });
   }
   next();
