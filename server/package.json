@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node dist/server.js",
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
     "generate": "graphql-codegen && prettier ./src/types/schemaTypes.ts --write",
