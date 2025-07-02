@@ -41,7 +41,7 @@ const isQueueType = (
 ): val is NonNullable<MedicineType['queue']>[number] => {
   if (!val || typeof val !== 'object') return false;
 
-  return 'queue' in val && typeof val.queue === 'string';
+  return 'time' in val && 'checked' in val;
 };
 
 export const isUpdateMedicineQuery = (
