@@ -8,6 +8,7 @@ const config: CodegenConfig = {
       plugins: ['typescript', 'typescript-resolvers', 'typescript-mongodb'],
       config: {
         typesSuffix: 'Type',
+        declarationKind: 'interface',
         scalars: {
           ID: {
             input: 'ObjectId',

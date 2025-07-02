@@ -23,21 +23,21 @@ export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
 };
 /** All built-in and custom scalars, mapped to their actual values */
-export type Scalars = {
+export interface Scalars {
   ID: { input: ObjectId; output: ObjectId };
   String: { input: string; output: string };
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-};
+}
 
-export type AuthType = {
+export interface AuthType {
   __typename?: 'Auth';
   token: Scalars['String']['output'];
   user?: Maybe<UserType>;
-};
+}
 
-export type MedicineType = {
+export interface MedicineType {
   __typename?: 'Medicine';
   _id: Scalars['ID']['output'];
   amount?: Maybe<Scalars['Int']['output']>;
@@ -49,18 +49,18 @@ export type MedicineType = {
   subInterval?: Maybe<Scalars['String']['output']>;
   times?: Maybe<Array<Scalars['String']['output']>>;
   userId: Scalars['ID']['output'];
-};
+}
 
-export type MedicineInputType = {
+export interface MedicineInputType {
   amount?: InputMaybe<Scalars['Int']['input']>;
   dosage?: InputMaybe<Scalars['Int']['input']>;
   interval?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   subInterval?: InputMaybe<Scalars['String']['input']>;
   times?: InputMaybe<Array<Scalars['String']['input']>>;
-};
+}
 
-export type MutationType = {
+export interface MutationType {
   __typename?: 'Mutation';
   addMedicine?: Maybe<MedicineType>;
   addUser?: Maybe<AuthType>;
@@ -68,67 +68,67 @@ export type MutationType = {
   login?: Maybe<AuthType>;
   toggleIsActive?: Maybe<MedicineType>;
   updateMedicine?: Maybe<MedicineType>;
-};
+}
 
-export type MutationAddMedicineArgsType = {
+export interface MutationAddMedicineArgsType {
   medicine: MedicineInputType;
-};
+}
 
-export type MutationAddUserArgsType = {
+export interface MutationAddUserArgsType {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
-};
+}
 
-export type MutationCheckQueueArgsType = {
+export interface MutationCheckQueueArgsType {
   medicineId: Scalars['ID']['input'];
   queueId: Scalars['ID']['input'];
-};
+}
 
-export type MutationLoginArgsType = {
+export interface MutationLoginArgsType {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
-};
+}
 
-export type MutationToggleIsActiveArgsType = {
+export interface MutationToggleIsActiveArgsType {
   medicineId: Scalars['ID']['input'];
-};
+}
 
-export type MutationUpdateMedicineArgsType = {
+export interface MutationUpdateMedicineArgsType {
   medicine: MedicineInputType;
   medicineId: Scalars['ID']['input'];
-};
+}
 
-export type QueryType = {
+export interface QueryType {
   __typename?: 'Query';
   medicine?: Maybe<MedicineType>;
   medicines?: Maybe<Array<MedicineType>>;
-};
+}
 
-export type QueryMedicineArgsType = {
+export interface QueryMedicineArgsType {
   medicineId: Scalars['ID']['input'];
-};
+}
 
-export type QueueType = {
+export interface QueueType {
   __typename?: 'Queue';
   _id: Scalars['ID']['output'];
   checked?: Maybe<Scalars['Boolean']['output']>;
   time: Scalars['String']['output'];
-};
+}
 
-export type QueueInputType = {
+export interface QueueInputType {
   time: Scalars['String']['input'];
-};
+}
 
-export type UserType = {
+export interface UserType {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
   username: Scalars['String']['output'];
-};
+}
 
-export type AdditionalEntityFieldsType = {
+export interface AdditionalEntityFieldsType {
   path?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
-};
+}
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
