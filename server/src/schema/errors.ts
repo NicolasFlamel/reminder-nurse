@@ -27,3 +27,9 @@ export const notFoundError = () =>
       code: 'NOT_FOUND',
     },
   });
+
+export const isMongoDBError = (value: unknown) => {
+  if (!value || typeof value !== 'object') return false;
+
+  return 'code' in value && value.code === 11000;
+};
