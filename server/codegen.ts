@@ -5,8 +5,16 @@ const config: CodegenConfig = {
   schema: typeDefs,
   generates: {
     './src/types/schemaTypes.ts': {
-      plugins: ['typescript', 'typescript-resolvers'],
-      config: { typesSuffix: 'Type' },
+      plugins: ['typescript', 'typescript-resolvers', 'typescript-mongodb'],
+      config: {
+        typesSuffix: 'Type',
+        scalars: {
+          ID: {
+            input: 'ObjectId',
+            output: 'ObjectId',
+          },
+        },
+      },
     },
   },
 };
