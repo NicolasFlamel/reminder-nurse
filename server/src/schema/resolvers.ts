@@ -1,22 +1,36 @@
-import { AuthenticationError, UserInputError } from 'apollo-server-express';
+import { Error } from 'mongoose';
 import { User, Medicine } from '../models';
+import { ResolversType, UserType } from '../types/schemaTypes';
 import { signToken } from '../utils/auth';
 import { updateQueue } from '../utils/updateQueue';
+import {
+  badUserInputError,
+  incorrectCredentialsError,
+  isMongoDBError,
+  missingContextApolloError,
+  notFoundError,
+} from './errors';
 
-const resolvers = {
+const resolvers: ResolversType = {
   Query: {
     // get single medicine
-    medicine: async (parent, { medicineId }, context) => {
-      if (!context.user)
-        throw new AuthenticationError('You need to be logged in!');
-      return Medicine.findOne({ _id: medicineId, userId: context.user._id });
+    medicine: async (_, { medicineId }, context) => {
+      if (!context.user) throw missingContextApolloError();
+      const medicineFound = await Medicine.findOne({
+        _id: medicineId,
+        userId: context.user._id,
+      });
+
+      if (!medicineFound) throw notFoundError();
+
+      return medicineFound;
     },
     // gets all medicine matching userId using context
-    medicines: async (parent, args, context) => {
-      if (!context.user)
-        throw new AuthenticationError('You need to be logged in!');
-      const userMedicines = await Medicine.find({ userId: context.user._id });
-
+    medicines: async (_, __, context) => {
+      if (!context.user) throw missingContextApolloError();
+      const userMedicines = await Medicine.find({
+        userId: context.user._id,
+      });
       const updatedMedicines = await updateQueue(userMedicines);
 
       return updatedMedicines;
@@ -24,37 +38,46 @@ const resolvers = {
   },
   Mutation: {
     // User login mutation
-    addUser: async (parent, { username, password }) => {
+    addUser: async (_, { username, password }) => {
       try {
-        const user = await User.create({ username, password });
-        const token = signToken(user);
+        const userDoc = await User.create({ username, password });
+        const user: UserType = { _id: userDoc._id, username: userDoc.username };
+        const token = signToken(userDoc);
 
         return { token, user };
       } catch (err) {
-        if (err.code === 11000) throw new UserInputError('Username is taken');
-        else if (err?.errors?.password?.path === 'password')
-          throw new UserInputError('Password does not meet requirements');
-        else throw err;
+        if (!err || typeof err !== 'object') throw err;
+        else if (isMongoDBError(err)) {
+          throw badUserInputError('Username is taken');
+        } else if (err instanceof Error.ValidationError) {
+          if (err.errors.password.path === 'password')
+            throw badUserInputError('Password does not meet requirements');
+        }
+        throw err;
       }
     },
-    login: async (parent, { username, password }) => {
-      const user = await User.findOne({ username });
-      if (!user) {
-        throw new AuthenticationError('Incorrect username or password!');
-      }
+    login: async (_, { username, password }) => {
+      const userDoc = await User.findOne({ username });
+
+      if (!userDoc) {
+        throw incorrectCredentialsError();
+      } else if (typeof password !== 'string')
+        throw new Error('typeof password !== string');
+
       // check the password
-      const correctPw = await user.isCorrectPassword(password);
+      const correctPw = await userDoc.isCorrectPassword(password);
+
       if (!correctPw) {
-        throw new AuthenticationError('Incorrect username or password!');
+        throw incorrectCredentialsError();
       }
-      const token = signToken(user);
-      return { token, user };
+      const token = signToken(userDoc);
+
+      return { token, user: userDoc };
     },
 
     // adds new medicine using context for userId
-    addMedicine: async (parent, { medicine }, context) => {
-      if (!context.user)
-        throw new AuthenticationError('You need to be logged in!');
+    addMedicine: async (_, { medicine }, context) => {
+      if (!context.user) throw missingContextApolloError();
 
       const newMedicine = await Medicine.create({
         ...medicine,
@@ -64,9 +87,8 @@ const resolvers = {
       return newMedicine;
     },
     // updates fields of medicine depending on whats passed in
-    updateMedicine: async (parent, { medicineId, medicine }, context) => {
-      if (!context.user)
-        throw new AuthenticationError('You need to be logged in!');
+    updateMedicine: async (_, { medicineId, medicine }, context) => {
+      if (!context.user) throw missingContextApolloError();
 
       const updatedMedicine = await Medicine.findOneAndUpdate(
         { _id: medicineId, userId: context.user._id },
@@ -74,12 +96,13 @@ const resolvers = {
         { new: true },
       );
 
+      if (!updatedMedicine) throw new Error('yikes');
+
       return updatedMedicine;
     },
     // toggles isActive of specific medicine
-    toggleIsActive: async (parent, { medicineId }, context) => {
-      if (!context.user)
-        throw new AuthenticationError('You need to be logged in!');
+    toggleIsActive: async (_, { medicineId }, context) => {
+      if (!context.user) throw missingContextApolloError();
 
       const toggledIsActive = await Medicine.findOneAndUpdate(
         { _id: medicineId, userId: context.user._id, amount: { $gt: 0 } },
@@ -90,21 +113,23 @@ const resolvers = {
       return toggledIsActive;
     },
     // updates check value on queue obj to true and decreases amount on medicine by dosage
-    checkQueue: async (parent, { medicineId, queueId }, context) => {
-      if (!context.user)
-        throw new AuthenticationError('You need to be logged in!');
-      const medicine = await Medicine.findOne({
+    checkQueue: async (_, { medicineId, queueId }, context) => {
+      if (!context.user) throw missingContextApolloError();
+      const medicineDoc = await Medicine.findOne({
         _id: medicineId,
         'queue._id': queueId,
       });
-      const index = medicine.queue.findIndex((el) => el._id == queueId);
+
+      if (!medicineDoc) throw notFoundError();
+
+      const index = medicineDoc.queue.findIndex((el) => el._id == queueId);
 
       if (index > -1) {
-        medicine.queue[index].checked = true;
-        medicine.amount -= medicine.dosage;
+        medicineDoc.queue[index].checked = true;
+        medicineDoc.amount -= medicineDoc.dosage;
       }
 
-      const toggledQueueChecked = await medicine.save();
+      const toggledQueueChecked = await medicineDoc.save();
       return toggledQueueChecked;
     },
   },
