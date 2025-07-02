@@ -157,7 +157,7 @@ medicineSchema.pre('findOneAndUpdate', async function (next) {
       );
 
       if (!found && update.queue) {
-        const _id = new mongoose.Types.ObjectId().toString();
+        const _id = new mongoose.Types.ObjectId();
         const queue = {
           _id,
           time,
