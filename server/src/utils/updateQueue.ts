@@ -1,6 +1,6 @@
-const { Medicine } = require('../models');
+import { Medicine } from '../models';
 
-module.exports = {
+const updateQueue = {
   // updates the queue object on all medicine
   updateQueue: async (userMedicines) => {
     // new object to be returned with all medicines
@@ -41,3 +41,5 @@ module.exports = {
     return updatedMedicines;
   },
 };
+
+export default updateQueue;

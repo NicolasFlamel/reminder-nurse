@@ -1,5 +1,5 @@
-const dayjs = require('dayjs');
-const { Schema, model, Types } = require('mongoose');
+import dayjs from 'dayjs';
+import { Schema, model, Types } from 'mongoose';
 
 const medicineSchema = new Schema({
   name: {
@@ -144,4 +144,4 @@ medicineSchema.methods.fillQueue = async function () {
 
 const Medicine = model('Medicine', medicineSchema);
 
-module.exports = Medicine;
+export default Medicine;

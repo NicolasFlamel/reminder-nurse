@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
   type User {
@@ -56,4 +56,5 @@ const typeDefs = gql`
     checkQueue(medicineId: ID!, queueId: ID!): Medicine
   }
 `;
-module.exports = typeDefs;
+
+export default typeDefs;
