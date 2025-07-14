@@ -10,7 +10,7 @@ interface DailyMedicationProps {
 export const DailyMedication = ({ medicine }: DailyMedicationProps) => {
   const [toggleChecked] = useMutation<MutationType>(
     TOGGLE_CHECKED,
-    toggledQueueCheckedCache
+    toggledQueueCheckedCache,
   );
 
   const handleCheck = async () => {

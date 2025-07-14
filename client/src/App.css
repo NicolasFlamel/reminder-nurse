@@ -42,7 +42,8 @@ p {
 
 body {
   background-color: hsla(200, 0%, 100%, 1);
-  background-image: radial-gradient(
+  background-image:
+    radial-gradient(
       at 93% 92%,
       hsla(201, 100%, 85%, 0.32) 0px,
       transparent 20%

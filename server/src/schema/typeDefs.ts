@@ -1,6 +1,4 @@
-const { gql } = require('apollo-server-express');
-
-const typeDefs = gql`
+const typeDefs = `#graphql
   type User {
     _id: ID!
     username: String!
@@ -12,8 +10,8 @@ const typeDefs = gql`
     amount: Int
     interval: String
     subInterval: String
-    times: [String]
-    queue: [Queue]
+    times: [String!]
+    queue: [Queue!]
     isActive: Boolean
     userId: ID!
   }
@@ -25,7 +23,7 @@ const typeDefs = gql`
   }
 
   type Auth {
-    token: ID!
+    token: String!
     user: User
   }
 
@@ -35,7 +33,7 @@ const typeDefs = gql`
     amount: Int
     interval: String
     subInterval: String
-    times: [String]
+    times: [String!]
   }
 
   input QueueInput {
@@ -44,7 +42,7 @@ const typeDefs = gql`
 
   type Query {
     medicine(medicineId: ID!): Medicine
-    medicines: [Medicine]
+    medicines: [Medicine!]
   }
 
   type Mutation {
@@ -56,4 +54,5 @@ const typeDefs = gql`
     checkQueue(medicineId: ID!, queueId: ID!): Medicine
   }
 `;
-module.exports = typeDefs;
+
+export default typeDefs;

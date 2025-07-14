@@ -1,7 +1,7 @@
-const db = require('../config/connection');
-const { User, Medicine } = require('../models');
-const userSeeds = require('./userSeeds.json');
-const medicineSeeds = require('./medicineSeeds.json');
+import db from '../config/connection';
+import { User, Medicine } from '../models';
+import userSeeds from './userSeeds.json';
+import medicineSeeds from './medicineSeeds.json';
 
 db.once('open', async () => {
   try {
