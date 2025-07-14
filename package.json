@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "node server/dist/server.js",
     "dev": "concurrently -k -c auto \"npm:dev:client\" \"npm:dev:server\"",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
-    "postinstall": "cd server && npm i && cd ../client && npm i",
-    "build": "cd client && npm run build",
+    "postinstall": "cd client && npm i && cd ../server && npm i",
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "generate": "cd server && npm run generate",
     "seed": "cd server && npm run seed",
     "lint": "cd client && npm run lint",
     "prettier": "npx prettier --write ."
@@ -27,7 +28,7 @@
   "homepage": "https://github.com/IqbalAhmadi/mern-project#readme",
   "devDependencies": {
     "concurrently": "^9.2.0",
-    "prettier": "^3.6.0"
+    "prettier": "^3.6.2"
   },
   "prettier": {
     "singleQuote": true

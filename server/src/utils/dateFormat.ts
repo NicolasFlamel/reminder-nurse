@@ -1,4 +1,4 @@
-const addDateSuffix = (date) => {
+const addDateSuffix = (date: number) => {
   let dateStr = date.toString();
 
   // get last char of date string
@@ -17,26 +17,25 @@ const addDateSuffix = (date) => {
   return dateStr;
 };
 
-// function to format a timestamp, accepts the timestamp and an `options` object as parameters
-export default (
-  timestamp,
+const formatDate = (
+  timestamp: string,
   { monthLength = 'short', dateSuffix = true } = {},
 ) => {
-  // create month object
-  const months = {
-    0: monthLength === 'short' ? 'Jan' : 'January',
-    1: monthLength === 'short' ? 'Feb' : 'February',
-    2: monthLength === 'short' ? 'Mar' : 'March',
-    3: monthLength === 'short' ? 'Apr' : 'April',
-    4: monthLength === 'short' ? 'May' : 'May',
-    5: monthLength === 'short' ? 'Jun' : 'June',
-    6: monthLength === 'short' ? 'Jul' : 'July',
-    7: monthLength === 'short' ? 'Aug' : 'August',
-    8: monthLength === 'short' ? 'Sep' : 'September',
-    9: monthLength === 'short' ? 'Oct' : 'October',
-    10: monthLength === 'short' ? 'Nov' : 'November',
-    11: monthLength === 'short' ? 'Dec' : 'December',
-  };
+  // create month array
+  const months = [
+    monthLength === 'short' ? 'Jan' : 'January',
+    monthLength === 'short' ? 'Feb' : 'February',
+    monthLength === 'short' ? 'Mar' : 'March',
+    monthLength === 'short' ? 'Apr' : 'April',
+    monthLength === 'short' ? 'May' : 'May',
+    monthLength === 'short' ? 'Jun' : 'June',
+    monthLength === 'short' ? 'Jul' : 'July',
+    monthLength === 'short' ? 'Aug' : 'August',
+    monthLength === 'short' ? 'Sep' : 'September',
+    monthLength === 'short' ? 'Oct' : 'October',
+    monthLength === 'short' ? 'Nov' : 'November',
+    monthLength === 'short' ? 'Dec' : 'December',
+  ];
 
   const dateObj = new Date(timestamp);
   const formattedMonth = months[dateObj.getMonth()];
@@ -65,3 +64,6 @@ export default (
 
   return formattedTimeStamp;
 };
+
+// function to format a timestamp, accepts the timestamp and an `options` object as parameters
+export default formatDate;

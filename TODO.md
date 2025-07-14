@@ -1,1 +1,3 @@
 - server workers & PWA: https://vite-pwa-org.netlify.app/guide/register-service-worker
+- test app due to typescript changes
+  - test notification feature
