@@ -72,5 +72,7 @@
 }
 .fade-enter-active .userForm,
 .fade-exit-active .userForm {
-  transition: opacity 500ms, transform 500ms;
+  transition:
+    opacity 500ms,
+    transform 500ms;
 }

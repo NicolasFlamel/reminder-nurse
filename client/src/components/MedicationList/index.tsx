@@ -57,7 +57,7 @@ export const MedicationList = ({
               </section>
             </section>
           </li>
-        ) : null
+        ) : null,
       )}
     </ol>
   );

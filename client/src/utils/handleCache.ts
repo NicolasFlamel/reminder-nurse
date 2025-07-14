@@ -43,7 +43,7 @@ export const updateMedicineCache: UpdateMedicineCacheType = {
       if (!queryData) throw ' no query data';
 
       const filteredMedicines = queryData.medicines.filter(
-        (medicine) => medicine._id !== updateMedicine._id
+        (medicine) => medicine._id !== updateMedicine._id,
       );
 
       cache.writeQuery({
@@ -72,7 +72,7 @@ export const toggleIsActiveCache: ToggleIsActiveCacheType = {
       if (!queryData) throw ' no query data';
 
       const filteredMedicines = queryData.medicines.filter(
-        (medicine) => medicine._id !== toggleIsActive._id
+        (medicine) => medicine._id !== toggleIsActive._id,
       );
 
       cache.writeQuery({
@@ -100,7 +100,7 @@ export const toggledQueueCheckedCache: ToggledQueueCheckedCacheType = {
       if (!queryData) throw 'no query data';
 
       const filteredMedicines = queryData.medicines.filter(
-        (medicine) => medicine._id !== data.checkQueue._id
+        (medicine) => medicine._id !== data.checkQueue._id,
       );
 
       cache.writeQuery({
