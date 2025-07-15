@@ -3,14 +3,11 @@ import icon from '../assets/images/rn_static_01.png';
 // TODO: actions option for service workers
 class Notifications {
   notification: Notification | undefined;
-  permission: string;
-  constructor(permission?: string) {
+  permission: NotificationPermission;
+
+  constructor(permission?: NotificationPermission) {
     this.notification = undefined;
     this.permission = permission || 'default';
-
-    if (this.checkPermission() !== 'granted') {
-      this.requestPermission();
-    }
   }
   checkPermission() {
     this.permission = Notification.permission;
@@ -28,4 +25,6 @@ class Notifications {
   }
 }
 
-export default new Notifications();
+const notify = new Notifications();
+
+export default notify;
