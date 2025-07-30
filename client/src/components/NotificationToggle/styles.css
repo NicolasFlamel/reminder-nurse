@@ -1,5 +1,14 @@
-.notification-btn {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+.notification-toggle {
+  position: sticky;
+  display: flex;
+  justify-content: right;
+  margin: 0.5rem;
+  bottom: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .notification-toggle {
+    /* compensate for bottom nav */
+    bottom: 60px;
+  }
 }
