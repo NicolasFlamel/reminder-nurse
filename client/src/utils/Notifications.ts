@@ -15,8 +15,12 @@ class Notifications {
   }
   async requestPermission() {
     this.permission = await Notification.requestPermission();
+    return this.permission;
   }
   createNotification(time: string, name: string) {
+    if (this.permission !== 'granted')
+      throw new Error('Notification permission not granted');
+
     const title = name + '@' + time;
     const body = 'A reminder to take your medicine';
 
