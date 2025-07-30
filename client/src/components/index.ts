@@ -6,3 +6,4 @@ export * from './Loading';
 export * from './Medication';
 export * from './MedicationList';
 export * from './Navbar';
+export * from './NotificationToggle';
