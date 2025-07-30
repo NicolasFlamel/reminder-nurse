@@ -1,21 +1,29 @@
 import './styles.css';
-import { SetState } from 'types';
-import { Button, ButtonProps } from 'react-bootstrap';
-import notify from 'utils/Notifications';
+import { Alert, Button, ButtonProps } from 'react-bootstrap';
+import { useNotify } from 'hooks/useNotify';
 
 interface NotificationToggleProps {
-  setIsNotifying: SetState<boolean>;
+  checkPermission: () => void;
 }
 export const NotificationToggle = ({
-  setIsNotifying,
+  checkPermission,
 }: NotificationToggleProps) => {
+  const { permission, requestPermission } = useNotify();
+
   const handleClick = async () => {
-    const permission = await notify.requestPermission();
-    setIsNotifying(permission === 'granted');
+    const permission = await requestPermission();
+    if (permission === 'granted') checkPermission();
   };
+
   return (
     <section className="notification-toggle">
-      <NotificationBtn onClick={handleClick} />
+      {permission === 'denied' ? (
+        <Alert variant="danger" dismissible>
+          Notification permission was denied
+        </Alert>
+      ) : (
+        <NotificationBtn onClick={handleClick} />
+      )}
     </section>
   );
 };

@@ -22,7 +22,7 @@ import {
   NotificationToggle,
 } from 'components';
 import { Home, Medicine, Medicines, NotFound, Notify } from 'pages';
-import notify from 'utils/Notifications';
+import { useNotify } from 'hooks/useNotify';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -45,9 +45,7 @@ const client = new ApolloClient({
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(Auth.loggedIn());
-  const [isNotifying, setIsNotifying] = useState(
-    notify.checkPermission() === 'granted',
-  );
+  const { permission, checkPermission } = useNotify();
 
   return (
     <ApolloProvider client={client}>
@@ -72,8 +70,8 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
-        {!isNotifying ? (
-          <NotificationToggle setIsNotifying={setIsNotifying} />
+        {permission !== 'granted' ? (
+          <NotificationToggle checkPermission={checkPermission} />
         ) : null}
         <MobileNavbar access={{ loggedIn, setLoggedIn }} />
       </Router>

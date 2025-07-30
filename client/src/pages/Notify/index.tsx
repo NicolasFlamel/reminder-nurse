@@ -1,12 +1,12 @@
-import Notifications from 'utils/Notifications';
+import { useNotify } from 'hooks/useNotify';
 import { Button, Container } from 'react-bootstrap';
 
 export const Notify = () => {
+  const { permission, requestPermission, createNotification } = useNotify();
   const testNotification = () => {
-    if (Notifications.permission !== 'granted')
-      Notifications.requestPermission();
+    if (permission !== 'granted') requestPermission();
 
-    Notifications.createNotification('time', 'name');
+    createNotification('time', 'name');
   };
 
   return (
