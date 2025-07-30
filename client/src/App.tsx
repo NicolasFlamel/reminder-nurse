@@ -15,8 +15,14 @@ import {
 } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Auth from 'utils/auth';
-import { DesktopNavbar, Header, MobileNavbar } from 'components';
+import {
+  DesktopNavbar,
+  Header,
+  MobileNavbar,
+  NotificationToggle,
+} from 'components';
 import { Home, Medicine, Medicines, NotFound, Notify } from 'pages';
+import notify from 'utils/Notifications';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -39,6 +45,9 @@ const client = new ApolloClient({
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(Auth.loggedIn());
+  const [isNotifying, setIsNotifying] = useState(
+    notify.checkPermission() === 'granted',
+  );
 
   return (
     <ApolloProvider client={client}>
@@ -63,6 +72,9 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
+        {!isNotifying ? (
+          <NotificationToggle setIsNotifying={setIsNotifying} />
+        ) : null}
         <MobileNavbar access={{ loggedIn, setLoggedIn }} />
       </Router>
     </ApolloProvider>
