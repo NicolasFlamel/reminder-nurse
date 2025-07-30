@@ -25,8 +25,7 @@ export const useNotify = () => {
     const title = name + '@' + time;
     const body = 'A reminder to take your medicine';
 
-    const newNotification = new Notification(title, { body, icon });
-    newNotification.onclick = () => window.parent.focus();
+    newNotification(title, { body });
   };
 
   return {
@@ -35,4 +34,13 @@ export const useNotify = () => {
     requestPermission,
     createNotification,
   };
+};
+
+// create notification without using hook
+export const newNotification = (
+  title: string,
+  options: NotificationOptions,
+) => {
+  const newNotification = new Notification(title, { ...options, icon });
+  newNotification.onclick = () => window.parent.focus();
 };
