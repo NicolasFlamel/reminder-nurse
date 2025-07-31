@@ -4,6 +4,7 @@ import {
   createHttpLink,
   InMemoryCache,
 } from '@apollo/client';
+import { SocketProvider } from './SocketContext';
 import { BrowserRouter } from 'react-router-dom';
 import { setContext } from '@apollo/client/link/context';
 
@@ -29,8 +30,10 @@ interface ProviderProps {
 
 export const Providers = ({ children }: ProviderProps) => {
   return (
-    <ApolloProvider client={client}>
-      <BrowserRouter>{children}</BrowserRouter>
-    </ApolloProvider>
+    <SocketProvider>
+      <ApolloProvider client={client}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </ApolloProvider>
+    </SocketProvider>
   );
 };
