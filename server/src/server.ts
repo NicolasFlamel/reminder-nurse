@@ -9,6 +9,8 @@ import { MyContext } from './types/apolloTypes';
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { expressMiddleware } from '@as-integrations/express5';
+import { Server } from 'socket.io';
+import { socketSetup } from './socket';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -19,6 +21,13 @@ const server = new ApolloServer<MyContext>({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+});
+
+const ioServer = new Server(httpServer, {
+  cors: {
+    // update to origin later
+    origin: '*',
+  },
 });
 
 app.use(express.urlencoded({ extended: true }));
@@ -35,6 +44,8 @@ app.get('/{*any}', (req, res, next) => {
   // TODO handle pathing
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
+
+socketSetup(ioServer);
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {

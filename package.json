@@ -8,6 +8,8 @@
     "dev": "concurrently -k -c auto \"npm:dev:client\" \"npm:dev:server\"",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
+    "dev:host": "concurrently -k -c auto \"npm:dev:client:host\" \"npm:dev:server\"",
+    "dev:client:host": "cd client && npm run dev:host",
     "postinstall": "cd client && npm i && cd ../server && npm i",
     "build": "cd client && npm run build && cd ../server && npm run build",
     "generate": "cd server && npm run generate",
