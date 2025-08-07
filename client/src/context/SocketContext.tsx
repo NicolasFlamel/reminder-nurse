@@ -1,3 +1,4 @@
+import { useNotify } from 'hooks/useNotify';
 import {
   createContext,
   useContext,
@@ -6,10 +7,13 @@ import {
   useEffect,
 } from 'react';
 import { socket } from 'socket';
+import { isJob, JobType } from 'types/socketTypes';
+import dayjs from 'dayjs';
+import { notificationFired, wasFired } from 'hooks/helpers';
 
 interface SocketDataType {
   isConnected: boolean;
-  sendJob: (newData: string) => void;
+  sendJob: (newData: JobType) => void;
 }
 
 const initialContextState: SocketDataType = {
@@ -26,6 +30,7 @@ interface SocketProviderProps {
 
 export const SocketProvider = ({ children }: SocketProviderProps) => {
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const { permission, createNotification } = useNotify();
 
   useEffect(() => {
     const onConnect = () => {
@@ -37,7 +42,17 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
     };
 
     const onJobEvent = (value: unknown) => {
-      console.log('onJobEvent: ', value);
+      if (permission !== 'granted') return;
+      else if (!isJob(value)) return;
+
+      const date = dayjs(value.date).format('HH:mm');
+
+      if (wasFired(value)) return;
+
+      createNotification(date, value.medicineName);
+      notificationFired(value);
+
+      console.log('createNotification: ', value);
     };
 
     socket.on('connect', onConnect);
@@ -49,9 +64,9 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       socket.off('disconnect', onDisconnect);
       socket.off('message', onJobEvent);
     };
-  }, []);
+  }, [createNotification, permission]);
 
-  const sendJob = async (newData: string) => {
+  const sendJob = async (newData: JobType) => {
     socket.emit('job', newData);
   };
 

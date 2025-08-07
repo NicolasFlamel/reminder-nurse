@@ -1,17 +1,8 @@
-import { DefaultEventsMap, Server, Socket } from 'socket.io';
+import { CronJob } from 'cron';
+import { IOServerType, isJob, SocketType } from '../types/socketTypes';
 
-type IOServerType = Server<
-  DefaultEventsMap,
-  DefaultEventsMap,
-  DefaultEventsMap,
-  any
->;
-type SocketType = Socket<
-  DefaultEventsMap,
-  DefaultEventsMap,
-  DefaultEventsMap,
-  any
->;
+type UserJobsType = Record<string, CronJob>;
+const userJobs: UserJobsType = {};
 
 export const socketSetup = (io: IOServerType) => {
   io.on('connection', (socket) => {
@@ -20,13 +11,29 @@ export const socketSetup = (io: IOServerType) => {
     socket.on('job', jobListener(socket));
 
     socket.on('disconnect', () => {
+      clearJobs(socket.id);
       console.log('Client disconnected:', socket.id);
     });
   });
 };
 
 const jobListener = (socket: SocketType) => async (data: unknown) => {
-  if (typeof data !== 'string') return;
+  if (!isJob(data)) return;
+  const date = new Date(data.date);
+  date.setSeconds(date.getSeconds() + 2);
 
-  socket.emitWithAck('job', 'Thanks for clicking~');
+  const job = new CronJob(
+    date,
+    () => {
+      socket.emit('job', data);
+    },
+    null,
+    true,
+  );
+
+  userJobs[socket.id] = job;
+};
+
+const clearJobs = (socketId: string) => {
+  userJobs[socketId]?.stop();
 };
