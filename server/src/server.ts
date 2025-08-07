@@ -11,6 +11,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { expressMiddleware } from '@as-integrations/express5';
 import { Server } from 'socket.io';
 import { socketSetup } from './socket';
+import routes from './controllers';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -39,11 +40,7 @@ if (isProduction) {
   app.use(express.static(path.join(__dirname, '../../client/dist')));
 }
 
-app.get('/{*any}', (req, res, next) => {
-  if (!isProduction && req.originalUrl.startsWith('/graphql')) next();
-  // TODO handle pathing
-  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
-});
+app.use(routes);
 
 socketSetup(ioServer);
 
