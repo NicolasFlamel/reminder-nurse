@@ -27,11 +27,11 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       if (permission !== 'granted') return;
       else if (!isJob(value)) return;
 
-      const date = dayjs(value.date).format('HH:mm');
+      const time = dayjs(value.date).format('HH:mm');
 
       if (wasFired(value)) return;
 
-      createNotification(date, value.medicineName);
+      createNotification(time, value.medicineName);
       notificationFired(value);
 
       console.log('createNotification: ', value);
