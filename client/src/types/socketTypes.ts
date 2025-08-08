@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+export type SocketErrorType = { message: string; error: unknown };
 // Duplicate code in server/src/types/socketTypes.ts
 type DateString = string;
 export type JobType = { date: DateString; medicineName: string };

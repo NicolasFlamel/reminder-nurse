@@ -29,8 +29,10 @@ const hasMedicineName = (value: object): value is { medicineName: string } => {
 };
 
 // Socket Types
+type SocketErrorType = { message: string; error: unknown };
 export interface ServerToClientEvents {
   job: (data: JobType) => void;
+  error: (error: SocketErrorType) => void;
 }
 export type IOServerType = Server<
   DefaultEventsMap,
