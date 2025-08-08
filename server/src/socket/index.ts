@@ -48,6 +48,7 @@ const jobListener = (socket: SocketType) => async (data: unknown) => {
   }
 };
 
-const clearJobs = (socketId: string) => {
-  userJobs[socketId]?.stop();
+const clearJobs = async (socketId: string) => {
+  await userJobs[socketId]?.stop();
+  delete userJobs[socketId];
 };
