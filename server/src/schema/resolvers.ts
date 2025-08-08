@@ -50,7 +50,7 @@ const resolvers: ResolversType = {
         else if (isMongoDBError(err)) {
           throw badUserInputError('Username is taken');
         } else if (err instanceof Error.ValidationError) {
-          if (err.errors.password.path === 'password')
+          if (err.errors.password?.path === 'password')
             throw badUserInputError('Password does not meet requirements');
         }
         throw err;
@@ -124,7 +124,7 @@ const resolvers: ResolversType = {
 
       const index = medicineDoc.queue.findIndex((el) => el._id == queueId);
 
-      if (index > -1) {
+      if (index > -1 && medicineDoc.queue[index]) {
         medicineDoc.queue[index].checked = true;
         medicineDoc.amount -= medicineDoc.dosage;
       }
