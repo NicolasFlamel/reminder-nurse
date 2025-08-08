@@ -25,6 +25,14 @@
   --accentPLight: #f097af;
 }
 
+#root {
+  min-width: 320px;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-rows: max-content 1fr max-content;
+}
+
 /* universal styles */
 
 ::selection {
@@ -153,6 +161,10 @@ button:hover {
 }
 
 @media only screen and (min-width: 601px) {
+  #root {
+    grid-template-rows: max-content max-content 1fr;
+  }
+
   .hideDesktop {
     display: none;
   }
