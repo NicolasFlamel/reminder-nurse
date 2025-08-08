@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { Providers } from 'context';
@@ -7,11 +7,13 @@ import Auth from 'utils/auth';
 import {
   DesktopNavbar,
   Header,
+  LoadingPage,
   MobileNavbar,
   NotificationToggle,
 } from 'components';
-import { Home, Medicine, Medicines, NotFound, Notify } from 'pages';
+import { Home, Medicine, Medicines, NotFound } from 'pages';
 import { useNotify } from 'hooks/useNotify';
+import { NotifyLazy } from 'pages/Notify';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(Auth.loggedIn());
@@ -35,7 +37,16 @@ function App() {
             path="/medicine/:medicineId"
             element={loggedIn ? <Medicine /> : <Navigate to="/" />}
           />
-          <Route path="notify" element={<Notify />} />
+
+          <Route
+            path="notify"
+            element={
+              <Suspense fallback={<LoadingPage />}>
+                <NotifyLazy />
+              </Suspense>
+            }
+          />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>
