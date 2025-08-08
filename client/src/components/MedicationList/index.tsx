@@ -9,7 +9,7 @@ import { faFilePen } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { MedicineType } from 'types';
-import { MouseEvent } from 'react';
+import { useQueue } from 'hooks/useQueue';
 
 interface MedicationListProps {
   medicines: MedicineType[];
@@ -64,6 +64,7 @@ type MedicineDisplayProps = {
   medicine: MedicineType;
 };
 const MedicineDisplay = ({ children, medicine }: MedicineDisplayProps) => {
+  useQueue(medicine);
 
   return (
     <li style={{ listStyleType: 'none' }}>

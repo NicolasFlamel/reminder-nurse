@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import { TOGGLE_CHECKED } from 'utils/mutations';
 import { toggledQueueCheckedCache } from 'utils/handleCache';
 import { MedicineType, QueueItemType } from 'types';
+import { useQueue } from 'hooks/useQueue';
 
 type MutationType = { checkQueue: MedicineType };
 interface DailyMedicationProps {
@@ -12,6 +13,7 @@ export const DailyMedication = ({
   queueItem,
   medicine,
 }: DailyMedicationProps) => {
+  useQueue(medicine);
   const [toggleChecked] = useMutation<MutationType>(
     TOGGLE_CHECKED,
     toggledQueueCheckedCache,
