@@ -125,35 +125,24 @@ medicineSchema.pre('findOneAndUpdate', async function (next) {
 
   // removes times that are no longer valid and pushes in new ones
   if (update.times) {
-    const removeIndexes: number[] = [];
     // removes duplicates
-    const updateTimes = [...new Set(update.times)];
-    update.times = updateTimes;
+    const duplicateFreeTimes = [...new Set(update.times)];
+    update.times = duplicateFreeTimes;
 
-    // finds the indexes which will be removed
-    original.queue?.forEach((obj, index) => {
-      let found = false;
-      // return false if time is in both original and update else return true
-      for (let i = 0; i < updateTimes.length; i++) {
-        if (updateTimes[i] === obj.time) found = true;
-      }
+    // filters out queue items no longer needed
+    const remainedQueueItems =
+      original.queue?.filter((queueItem) =>
+        duplicateFreeTimes.some((time) => time === queueItem.time),
+      ) || [];
 
-      if (!found) removeIndexes.push(index);
-    });
-
-    // removes queue obj from original document based on removeIndexes
-    for (let i = removeIndexes.length - 1; i >= 0; i--)
-      original.queue?.splice(removeIndexes[i], 1);
-
-    // copies over the queue we edited
-    update.queue = original.queue;
+    update.queue = remainedQueueItems;
 
     // adds time to queue if not found
     update.times.forEach((time) => {
       let found = false;
 
-      update.queue?.forEach((queueTime) =>
-        queueTime.time === time ? (found = true) : null,
+      update.queue?.forEach(
+        (queueTime) => (found = queueTime.time === time ? true : found),
       );
 
       if (!found && update.queue) {
