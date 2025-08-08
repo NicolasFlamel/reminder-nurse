@@ -4,7 +4,7 @@ import {
   createHttpLink,
   InMemoryCache,
 } from '@apollo/client';
-import { SocketProvider } from './SocketContext';
+import { SocketProvider } from './Socket';
 import { BrowserRouter } from 'react-router-dom';
 import { setContext } from '@apollo/client/link/context';
 

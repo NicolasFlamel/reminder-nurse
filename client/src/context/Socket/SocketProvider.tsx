@@ -1,28 +1,10 @@
-import { useNotify } from 'hooks/useNotify';
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from 'react';
-import { socket } from 'socket';
-import { isJob, JobType } from 'types/socketTypes';
 import dayjs from 'dayjs';
+import { socket } from 'socket';
+import { useState, ReactNode, useEffect } from 'react';
+import { useNotify } from 'hooks/useNotify';
+import { isJob, JobType } from 'types/socketTypes';
 import { notificationFired, wasFired } from 'hooks/helpers';
-
-interface SocketDataType {
-  isConnected: boolean;
-  sendJob: (newData: JobType) => void;
-}
-
-const initialContextState: SocketDataType = {
-  isConnected: false,
-  sendJob: () => {}, // Placeholder function
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const SocketContext = createContext<SocketDataType>(initialContextState);
+import { SocketContext, SocketDataType } from 'context/Socket';
 
 interface SocketProviderProps {
   children: ReactNode;
@@ -80,15 +62,4 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       {children}
     </SocketContext.Provider>
   );
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useSocket = () => {
-  const context = useContext(SocketContext);
-
-  if (context === undefined) {
-    throw new Error('useSocket must be used within a SocketProvider');
-  }
-
-  return context;
 };
