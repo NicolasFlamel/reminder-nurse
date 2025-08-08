@@ -1,4 +1,5 @@
 export * from './Access';
+export * from './AssistantAvatar';
 export * from './DailyMedication';
 export * from './DailySummary';
 export * from './Header';
