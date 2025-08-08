@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { socket } from 'socket';
 import { useState, ReactNode, useEffect } from 'react';
 import { useNotify } from 'hooks/useNotify';
-import { isJob, JobType } from 'types/socketTypes';
+import { isJob, JobType, SocketErrorType } from 'types/socketTypes';
 import { notificationFired, wasFired } from 'hooks/helpers';
 import { SocketContext, SocketDataType } from 'context/Socket';
 
@@ -37,14 +37,20 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       console.log('createNotification: ', value);
     };
 
+    const onErrorEvent = (value: SocketErrorType) => {
+      console.error(value);
+    };
+
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('job', onJobEvent);
+    socket.on('error', onErrorEvent);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
-      socket.off('message', onJobEvent);
+      socket.off('job', onJobEvent);
+      socket.off('error', onErrorEvent);
     };
   }, [createNotification, permission]);
 

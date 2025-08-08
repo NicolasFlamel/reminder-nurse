@@ -22,16 +22,30 @@ const jobListener = (socket: SocketType) => async (data: unknown) => {
   const date = new Date(data.date);
   date.setSeconds(date.getSeconds() + 2);
 
-  const job = new CronJob(
-    date,
-    () => {
-      socket.emit('job', data);
-    },
-    null,
-    true,
-  );
+  try {
+    const job = new CronJob(
+      date,
+      () => {
+        socket.emit('job', data);
+      },
+      null,
+      true,
+    );
+    userJobs[socket.id] = job;
+  } catch (error) {
+    let emitError: string;
 
-  userJobs[socket.id] = job;
+    if (typeof error === 'string') emitError = error;
+    else if (error instanceof Error) emitError = error.message;
+    else emitError = 'Unknown Error';
+
+    console.error('Caught: ', error);
+
+    socket.emit('error', {
+      message: 'Cron job creation failed',
+      error: emitError,
+    });
+  }
 };
 
 const clearJobs = (socketId: string) => {
