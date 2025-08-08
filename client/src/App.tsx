@@ -21,7 +21,7 @@ function App() {
     <Providers>
       <Header />
       <DesktopNavbar access={{ loggedIn, setLoggedIn }} />
-      <Container>
+      <Container as={'main'}>
         <Routes>
           <Route
             path="/"
