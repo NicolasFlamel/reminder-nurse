@@ -68,13 +68,16 @@ header {
   text-underline-offset: 7px;
 }
 
-.navMobile {
-  background-color: var(--darkest) !important;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  position: fixed;
+.hideDesktop {
+  position: sticky;
   bottom: 0;
   width: 100%;
+}
+
+.navMobile {
+  background-color: var(--darkest);
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .navIcons {

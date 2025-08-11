@@ -26,3 +26,13 @@ export const LoadingMedicationList = ({
     </div>
   );
 };
+
+export const LoadingPage = () => {
+  return (
+    <section className="loading-page">
+      <div className="loading-animation">
+        <p>Loading</p>
+      </div>
+    </section>
+  );
+};

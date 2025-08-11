@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { useMutation } from '@apollo/client';
@@ -8,7 +9,7 @@ import { faFilePen } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { MedicineType } from 'types';
-import { MouseEvent } from 'react';
+import { useQueue } from 'hooks/useQueue';
 
 interface MedicationListProps {
   medicines: MedicineType[];
@@ -33,33 +34,47 @@ export const MedicationList = ({
     <ol className="medication-list display-flex flex-wrap justify-content-between MedContMob">
       {medicines.map((medicine) =>
         isActive === medicine.isActive ? (
-          <li key={medicine._id} style={{ listStyleType: 'none' }}>
-            <section className="m-1 display-flex justify-content-around flex-wrap">
-              <h3 className="MedName">{medicine.name}</h3>
-              <section className="d-flex m-1 flex-wrap justify-content-end">
-                <Link to={'../medicine/' + medicine._id}>
-                  <FontAwesomeIcon
-                    icon={faFilePen}
-                    className="fa-xl MedFAIcon MedToggleB"
-                  />
-                </Link>
-                <Button
-                  className="MedToggleB"
-                  onClick={handleMedicineToggle}
-                  id={medicine._id}
-                  disabled={medicine.amount > 0 ? false : true}
-                >
-                  <FontAwesomeIcon
-                    icon={isActive ? faTrashCan : faCirclePlus}
-                    className="fa-xl fa-regular MedFAIcon"
-                  />
-                </Button>
-              </section>
-            </section>
-          </li>
+          <MedicineDisplay medicine={medicine} key={medicine._id}>
+            <Link to={'../medicine/' + medicine._id}>
+              <FontAwesomeIcon
+                icon={faFilePen}
+                className="fa-xl MedFAIcon MedToggleB"
+              />
+            </Link>
+            <Button
+              className="MedToggleB"
+              onClick={handleMedicineToggle}
+              id={medicine._id}
+              disabled={medicine.amount > 0 ? false : true}
+            >
+              <FontAwesomeIcon
+                icon={isActive ? faTrashCan : faCirclePlus}
+                className="fa-xl fa-regular MedFAIcon"
+              />
+            </Button>
+          </MedicineDisplay>
         ) : null,
       )}
     </ol>
+  );
+};
+
+type MedicineDisplayProps = {
+  children: React.ReactNode;
+  medicine: MedicineType;
+};
+const MedicineDisplay = ({ children, medicine }: MedicineDisplayProps) => {
+  useQueue(medicine);
+
+  return (
+    <li style={{ listStyleType: 'none' }}>
+      <section className="m-1 display-flex justify-content-around flex-wrap">
+        <h3 className="MedName">{medicine.name}</h3>
+        <section className="d-flex m-1 flex-wrap justify-content-end">
+          {children}
+        </section>
+      </section>
+    </li>
   );
 };
 

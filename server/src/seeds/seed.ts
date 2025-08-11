@@ -10,9 +10,12 @@ db.once('open', async () => {
 
     const userList = await User.create(userSeeds);
 
-    for (let i = 0; i < userList.length; i++) {
-      await Medicine.create({ ...medicineSeeds[i], userId: userList[i]._id });
-    }
+    await Promise.all(
+      userList.map(async (user, i) => {
+        const medicine = { ...medicineSeeds[i], userId: user._id };
+        return Medicine.create(medicine);
+      }),
+    );
   } catch (err) {
     console.error(err);
     process.exit(1);

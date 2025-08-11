@@ -22,7 +22,7 @@ const updateQueue = async (userMedicines: UpdateQueueTypeArg) => {
         // concat medicine queue with medicines returned from filter which checks for times not on the queue already
         const arr: QueueType[] = queues.filter((queueItem) => {
           for (let i = 0; i < queues.length; i++) {
-            if (queueItem.time === queues[i].time) return false;
+            if (queueItem.time === queues[i]?.time) return false;
           }
           return true;
         });

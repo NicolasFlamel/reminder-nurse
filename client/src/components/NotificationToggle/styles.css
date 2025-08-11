@@ -1,0 +1,33 @@
+.notification-toggle {
+  position: fixed;
+  display: flex;
+  justify-content: right;
+  bottom: 0;
+  right: 0;
+}
+
+.notification-toggle > * {
+  margin: 1rem;
+  max-width: 400px;
+}
+
+.notification-toggle hr {
+  width: 100%;
+}
+
+.notification-actions {
+  display: flex;
+  justify-content: end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .notification-toggle {
+    /* compensate for bottom nav */
+    bottom: 60px;
+  }
+  .notification-toggle > * {
+    max-width: unset;
+  }
+}

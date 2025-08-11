@@ -1,4 +1,4 @@
-import decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 type DecodedToken = {
   data: { _id: string; username: string };
@@ -7,7 +7,7 @@ type DecodedToken = {
 };
 class AuthService {
   decoded(token: string) {
-    return decode<DecodedToken>(token);
+    return jwtDecode<DecodedToken>(token);
   }
   getProfile() {
     const token = this.getToken();

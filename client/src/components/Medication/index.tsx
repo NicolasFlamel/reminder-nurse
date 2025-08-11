@@ -128,8 +128,8 @@ export const Medication = ({ medicine }: MedicationProps) => {
             onChange={handleChange}
             defaultValue={medicine ? medicine.subInterval : undefined}
           >
-            <option>Every</option>
-            <option>Every Other</option>
+            <option value={'every'}>Every</option>
+            <option value={'every other'}>Every Other</option>
           </Form.Select>
         </Form.Group>
 
