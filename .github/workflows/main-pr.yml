@@ -1,4 +1,4 @@
-name: Run ESLint & Vitest on PR
+name: Run ESLint & Test on PR
 on:
   push:
     branches: ['main']
@@ -20,5 +20,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: install
         run: npm ci
-      - name: Vitest
+      - name: Test
         run: npm run test

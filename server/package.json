@@ -9,7 +9,7 @@
     "dev": "node --import tsx --watch src/server.ts",
     "generate": "graphql-codegen && prettier ./src/types/schemaTypes.ts --write",
     "seed": "tsx src/seeds/seed.ts",
-    "test": "@echo no tests created"
+    "test": "echo 'No tests' && exit 0"
   },
   "author": "",
   "license": "ISC",
