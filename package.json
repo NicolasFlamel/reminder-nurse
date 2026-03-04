@@ -15,6 +15,7 @@
     "generate": "cd server && npm run generate",
     "seed": "cd server && npm run seed",
     "lint": "cd client && npm run lint",
+    "test": "cd client && npm run test && cd ../server && npm run test",
     "docker:up": "docker compose -p reminder-nurse-v2 up -d",
     "docker:down": "docker compose -p reminder-nurse-v2 down",
     "format": "prettier --write .",
