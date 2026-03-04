@@ -1,4 +1,3 @@
-import path from 'path';
 import http from 'http';
 import cors from 'cors';
 import express from 'express';
@@ -13,6 +12,7 @@ import { Server } from 'socket.io';
 import { socketSetup } from './socket';
 import routes from './controllers';
 import { ENV } from './ENV';
+import { CLIENT_DIST } from './utils/paths';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -37,8 +37,7 @@ app.use(express.json());
 
 // if we're in production, serve client/dist as static assets
 if (isProduction) {
-  const CLIENT_PATH = path.resolve(process.cwd(), '../client', 'dist');
-  app.use(express.static(CLIENT_PATH));
+  app.use(express.static(CLIENT_DIST));
 }
 
 app.use(routes);
