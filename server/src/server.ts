@@ -37,7 +37,7 @@ app.use(express.json());
 
 // if we're in production, serve client/dist as static assets
 if (isProduction) {
-  const CLIENT_PATH = path.resolve(process.cwd(), '../client', 'dist');
+  const CLIENT_PATH = path.resolve(__dirname, '../../client/dist');
   app.use(express.static(CLIENT_PATH));
 }
 
