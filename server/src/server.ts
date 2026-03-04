@@ -12,11 +12,12 @@ import { expressMiddleware } from '@as-integrations/express5';
 import { Server } from 'socket.io';
 import { socketSetup } from './socket';
 import routes from './controllers';
+import { ENV } from './ENV';
 
 const app = express();
 const httpServer = http.createServer(app);
-const PORT = process.env.PORT || 3001;
-const isProduction = process.env.NODE_ENV === 'production';
+const PORT = ENV.PORT || 3001;
+const isProduction = ENV.NODE_ENV === 'production';
 
 const server = new ApolloServer<MyContext>({
   typeDefs,
@@ -26,7 +27,7 @@ const server = new ApolloServer<MyContext>({
 
 const ioServer = new Server(httpServer, {
   cors: {
-    // update to origin later
+    // TODO: update to origin later
     origin: '*',
   },
 });
@@ -36,8 +37,8 @@ app.use(express.json());
 
 // if we're in production, serve client/dist as static assets
 if (isProduction) {
-  // TODO handle pathing
-  app.use(express.static(path.join(__dirname, '../../client/dist')));
+  const CLIENT_PATH = path.resolve(process.cwd(), '../client', 'dist');
+  app.use(express.static(CLIENT_PATH));
 }
 
 app.use(routes);
@@ -60,7 +61,9 @@ const startApolloServer = async () => {
   db.once('open', () => {
     httpServer.listen(PORT, () => {
       console.log('\x1b[34m' + `API server running on port ${PORT}! 🚀`);
-      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+      console.log(
+        `Use GraphQL at http://localhost:${PORT}/graphql` + '\x1b[0m',
+      );
     });
   });
 };

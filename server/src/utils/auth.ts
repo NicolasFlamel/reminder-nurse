@@ -3,10 +3,10 @@ import { ExpressContextFunctionArgument } from '@as-integrations/express5';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 import { MyContext } from '../types/apolloTypes';
-import 'dotenv/config';
+import { ENV } from '../ENV';
 
-const secret = process.env.JWT_SECRET!!;
-const expiration = process.env.JWT_EXP as SignOptions['expiresIn'];
+const secret = ENV.JWT_SECRET!!;
+const expiration = ENV.JWT_EXP as SignOptions['expiresIn'];
 
 type authMiddleWareType = ContextFunction<
   [ExpressContextFunctionArgument],
